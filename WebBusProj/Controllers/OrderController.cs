@@ -37,7 +37,16 @@ namespace WebBusProj.Controllers
         public IActionResult Edit(IFormCollection formCollection)
         {
             //write the record out to the service bus topic queue.
-            OrderQueueManager manager = new OrderQueueManager(new OrderTaskRepository(), settings);
+            OrderQueueManager manager = new OrderQueueManager(settings);
+            Order thisOrder = new Order()
+            {
+                OrderId = formCollection["OrderId"],
+                OrderTitle = formCollection["OrderTitle"],
+                OrderPayment = formCollection["OrderPayment"],
+                OrderDateTime = Convert.ToDateTime(formCollection["OrderDateTime"])
+            };
+            manager.SendMessageAsync(thisOrder);
+
             return View();
         }
     }
