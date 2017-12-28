@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebBusProj.Models;
 
 namespace WebBusProj
 {
     public class Startup
     {
+        public ServiceBusSettings srvbusSetting = null;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -21,6 +24,13 @@ namespace WebBusProj
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //srvbusSetting = new ServiceBusSettings();
+            //Configuration.GetSection("ServiceBusSettings").Get<ServiceBusSettings>();
+
+            //added based on Rick Stahl's blog post.
+            services.AddOptions();
+            //Configuration Options for the Service Bus Settings
+            services.Configure<ServiceBusSettings>(Configuration.GetSection("ServiceBusSettings"));
             services.AddMvc();
         }
 

@@ -4,11 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using WebBusProj.Models;
+using WebBusProj.Utilities;
 
 namespace WebBusProj.Controllers
 {
     public class OrderController : Controller
     {
+        private ServiceBusSettings settings { get; set; }
+        public OrderController(IOptions<ServiceBusSettings> _settings)
+        {
+            settings = _settings.Value;
+        }
         public IActionResult Index()
         {
             return View();
@@ -29,8 +37,7 @@ namespace WebBusProj.Controllers
         public IActionResult Edit(IFormCollection formCollection)
         {
             //write the record out to the service bus topic queue.
-
-
+            OrderQueueManager manager = new OrderQueueManager(new OrderTaskRepository(), settings);
             return View();
         }
     }
