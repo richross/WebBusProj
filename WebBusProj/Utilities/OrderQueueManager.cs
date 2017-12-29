@@ -14,10 +14,7 @@ namespace WebBusProj.Utilities
     public class OrderQueueManager : IOrderQueueManager
     {
         private ITopicClient topicClient;
-        private IOrderTaskRepository repository;
         private ServiceBusSettings settings;
-
-        private static readonly string orderQueueName = "orderprocessing";
 
         public OrderQueueManager(ServiceBusSettings optionsSettings)
         {
